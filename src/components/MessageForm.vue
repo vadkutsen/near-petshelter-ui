@@ -47,13 +47,6 @@
 
 <script>
 export default {
-components: {
-    Header,
-    Info,
-    MessageForm,
-    LearnSection,
-    MessageHistory
-  },
 }
 </script>
 

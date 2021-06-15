@@ -1,7 +1,9 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
     <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
+       <button class="rounded-xl py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Login
+                  </button>
       <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
         <defs>
           <pattern id="b1e6e422-73f8-40a6-b5d9-c8586e37e0e7" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -14,7 +16,6 @@
       <Header/>
 
       <div class="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-        
         <info/>
         <message-form/>
     </div>
@@ -40,11 +41,11 @@
 </template>
 
 <script>
-import Header from './Header.vue'
-import Info from './Info.vue'
-import MessageForm from './MessageForm.vue'
-import LearnSection from './LearnSection.vue'
-import MessageHistory from './MessageHistory.vue'
+import Header from '@/components/Header.vue'
+import Info from '@/components/Info.vue'
+import MessageForm from '@/components/MessageForm.vue'
+import LearnSection from '@/components/LearnSection.vue'
+import MessageHistory from '@/components/MessageHistory.vue'
 
 export default {
   components: {
@@ -53,14 +54,6 @@ export default {
     MessageForm,
     LearnSection,
     MessageHistory
-  },
-  setup() {
-    return {
-      RadioGroup,
-      RadioGroupDescription,
-      RadioGroupLabel,
-      RadioGroupOption,
-    }
-  },
+  }
 }
 </script>
