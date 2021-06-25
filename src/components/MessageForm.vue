@@ -13,7 +13,22 @@
                   You can do that right here.
                 </p>
               </div>
+
+
               <div class="grid grid-cols-6 gap-6">
+                <div class="col-span-6">
+                  <Multiselect
+                v-model="value"
+                mode="tags"
+                placeholder="Recipient name"
+                :options="options"
+                :search="true"
+                />
+                </div>
+                <!-- <div class="col-span-6">
+                  <label for="recipient" class="sr-only">Recipient name</label>
+                  <input type="text"  name="recipient" id="recipient" autocomplete="recipient" placeholder="Recipient name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                </div> -->
                 <div class="col-span-6">
                   <label for="message" class="sr-only">Your message</label>
                   <textarea rows="4" name="message" id="message" autocomplete="message" placeholder="Your message" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
@@ -46,7 +61,23 @@
 </template>
 
 <script>
+import Multiselect from '@vueform/multiselect'
+import '@vueform/multiselect/themes/default.css'
+
 export default {
+  components: {
+    Multiselect
+  },
+  data() {
+    return {
+      value: [],
+      options: [
+        'Batman',
+          'Robin',
+          'Joker',
+      ]
+    }
+  }
 }
 </script>
 
