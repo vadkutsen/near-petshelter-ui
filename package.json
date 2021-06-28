@@ -20,6 +20,7 @@
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.4",
     "vue": "^3.0.0",
+    "vue-next-select": "^2.6.0",
     "vue-router": "^4.0.0-0",
     "vue-select": "^3.11.2"
   },

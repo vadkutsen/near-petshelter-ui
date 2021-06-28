@@ -1,4 +1,17 @@
 <template>
+<div id="nav" class="py-4 p-0 flex justify-end">
+    <div class="flex w-1/2 justify-end items-center list-none">
+    <!-- <ul class="flex">
+      <li class="nav-item">
+        <router-link to="/" class="px-3 py-2 flex items-center text-sm uppercase font-semibold leading-snug text-indigo-500 hover:opacity-75 active:text-black-700">Sender</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/owner" class="px-3 py-2 flex items-center text-sm uppercase font-semibold leading-snug text-indigo-500 hover:opacity-75">Owner</router-link>
+      </li>
+    </ul> -->
+    <Login :isSignedIn='isSignedIn' :accountName='accountName' :balance='accountBalance' v-on:signIn='signIn' v-on:signOut='signOut'/>
+    </div>
+  </div>
   <div class="py-16 bg-gray-50 overflow-hidden lg:py-24">
     <div class="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
       <svg class="hidden lg:block absolute left-full transform -translate-x-1/2 -translate-y-1/4" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
@@ -14,7 +27,7 @@
 
       <div class="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
         <info/>
-        <message-form/>
+        <message-form :recipients='recipients' :isRecipientsLoaded='isRecipientsLoaded' v-on:sendMessage='sendMessage'/>
     </div>
 
       <svg class="hidden lg:block absolute right-full transform translate-x-1/2 translate-y-12" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
@@ -30,7 +43,7 @@
         <div class="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
           <LearnSection/>
 
-          <MessageHistory/>
+          <MessageHistory :history='history'/>
         </div>
       </div>
     </div>
@@ -38,19 +51,101 @@
 </template>
 
 <script>
+import Login from '@/components/Login.vue'
 import Header from '@/components/Header.vue'
 import Info from '@/components/Info.vue'
 import MessageForm from '@/components/MessageForm.vue'
 import LearnSection from '@/components/LearnSection.vue'
 import MessageHistory from '@/components/MessageHistory.vue'
+import * as nearAPI from "near-api-js"
+
+const { connect, keyStores, WalletConnection } = nearAPI
+
+
+const config = {
+  networkId: "testnet",
+  keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+  nodeUrl: "https://rpc.testnet.near.org",
+  walletUrl: "https://wallet.testnet.near.org",
+  helperUrl: "https://helper.testnet.near.org",
+  explorerUrl: "https://explorer.testnet.near.org",
+};
+
+  let near,wallet,contract,thankYouContract;
 
 export default {
+  data () {
+    return  {
+      isSignedIn: false,
+      accountName: '',
+      accountBalance: '',
+      recipients: [],
+      isRecipientsLoaded:false,
+      history:[]
+    }
+  },
   components: {
     Header,
     Info,
     MessageForm,
     LearnSection,
-    MessageHistory
+    MessageHistory,
+    Login
+  },
+  async mounted () {
+    near = await connect(config);
+    wallet = new WalletConnection(near)
+    this.accountName = wallet.account().accountId;
+    this.isSignedIn = wallet.isSignedIn();
+    this.accountBalance = await (await wallet.account().getAccountBalance()).total;
+    contract = new nearAPI.Contract(
+      wallet.account(),
+      'dev-1624882444476-83521585546083',
+      {
+        viewMethods: ["list_all"]
+      }
+    )
+    this.recipients = await contract.list_all()
+    this.isRecipientsLoaded = true
+  },
+    methods: {
+    signIn () {
+      wallet.requestSignIn(
+    "dev-1624882791000-17054952591347", // contract requesting access
+      );
+    },
+    signOut () {
+      wallet.signOut()
+      this.isSignedIn = wallet.isSignedIn()
+    },
+    async getRecipients () {
+      console.log('inside')
+      return await contract.list_all()
+    },
+    async sendMessage (value,message,amount,anon) {
+      thankYouContract = new nearAPI.Contract(
+      wallet.account(),
+      value,
+      {
+        viewMethods: ["list"],
+        changeMethods: ["say"],
+        sender:wallet.account()
+      }
+    )
+    if (amount>0) {
+      console.log('with amount')
+      await thankYouContract.say({message:message,anonymous:anon,attachedDeposit:amount})
+    }else{
+      console.log('without amount')
+      await thankYouContract.say({message:message,anonymous:anon})
+    }
+      this.history = await thankYouContract.list()
+      console.log(this.history)
+    
+      alert(message)
+      alert(amount)
+      alert(anon)
+    }
   }
 }
 </script>

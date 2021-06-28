@@ -5,7 +5,7 @@
                 Message History
               </RadioGroupLabel>
               <div>
-                <RadioGroupOption v-for="item in items" :key="item.id">
+                <RadioGroupOption v-for="item in history" :key="item.id">
                   <Message :item="item"/>
                 </RadioGroupOption>
               </div>
@@ -45,6 +45,12 @@ const items = [
 ]
 
 export default {
+  props: {
+    history: {
+      typeof:Array,
+      required:true
+    }
+  },
 setup() {
     return {
       items,

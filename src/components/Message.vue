@@ -3,15 +3,15 @@
                     <div class="flex items-center">
                       <div class="text-sm">
                         <RadioGroupLabel as="div" class="font-medium text-gray-900">
-                          {{ item.author }}
+                          {{ item.sender }}
                         </RadioGroupLabel>
-                        <RadioGroupDescription as="div" class="text-gray-500">
-                          {{ item.message }}
+                        <RadioGroupDescription as="div" class="text-gray-500 ml-1">
+                          {{ item.text }}
                         </RadioGroupDescription>
                       </div>
                     </div>
                     <RadioGroupDescription as="div" class="mt-2 flex text-sm sm:mt-0 sm:block sm:ml-4 sm:text-right">
-                      <div class="font-medium text-gray-900">{{ item.tip }} </div>
+                      <div class="font-medium text-gray-900">{{getAmount(item.contribution) }} </div>
                     </RadioGroupDescription>
                     <div class="border-transparent absolute -inset-px rounded-lg border-2 pointer-events-none" aria-hidden="true" />
                   </div>
@@ -27,6 +27,16 @@ export default {
       RadioGroupLabel,
     }
   },
+  methods: {
+    getAmount(tip) {
+      console.log(tip)
+      if (tip==0) {
+        return tip+" N"
+      }else{
+        return (tip/1000000000000000000000000).toFixed(5)+ " N"
+      }
+    }
+  }
 }
 </script>
 

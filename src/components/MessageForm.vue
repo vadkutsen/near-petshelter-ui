@@ -1,5 +1,4 @@
 <template>
-  <form>
           <div class="shadow overflow-hidden sm:rounded-md">
             <div class="px-4 py-5 bg-white sm:p-6">
               <div class="text-left pb-6">
@@ -19,9 +18,9 @@
                 <div class="col-span-6">
                   <Multiselect
                 v-model="value"
-                mode="tags"
+                mode="single"
                 placeholder="Recipient name"
-                :options="options"
+                :options="this.recipients"
                 :search="true"
                 />
                 </div>
@@ -31,7 +30,17 @@
                 </div> -->
                 <div class="col-span-6">
                   <label for="message" class="sr-only">Your message</label>
-                  <textarea rows="4" name="message" id="message" autocomplete="message" placeholder="Your message" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                  <textarea v-model="message" rows="4"  id="message" autocomplete="message" placeholder="Your message" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                </div>
+                <div class="col-span-6">
+                  <SwitchGroup as="div" class="flex items-center">
+    <Switch v-model="anon" :class="[anon ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
+      <span aria-hidden="true" :class="[anon ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']" />
+    </Switch>
+    <SwitchLabel as="span" class="ml-3">
+      <span class="text-sm font-medium text-gray-900">Send anonymously </span>
+    </SwitchLabel>
+  </SwitchGroup>
                 </div>
                 <div class="col-span-6 sm:col-span-6 lg:col-span-3">
                   <label for="tip" class="sr-only">Tip</label>
@@ -41,7 +50,7 @@
                         Ⓝ
                       </span>
                     </div>
-                    <input type="text" name="tip" id="tip" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0" aria-describedby="message-tip" />
+                    <input type="text" v-model="amount"  id="tip" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0" aria-describedby="message-tip" />
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <span class="text-gray-500 sm:text-sm" id="message-tip">
                         NEAR
@@ -50,32 +59,45 @@
                   </div>
                 </div>
                 <div class="col-span-6 sm:col-span-6 lg:col-span-3">
-                  <button type="submit" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button  @click="this.$emit('sendMessage',value,message,amount,anon)" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Say Thanks
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </form>
 </template>
 
 <script>
+import { ref } from 'vue'
 import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
+import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
 export default {
   components: {
-    Multiselect
+    Multiselect,
+    Switch,
+    SwitchGroup,
+    SwitchLabel
   },
+  props:{
+        recipients: {
+            typeof:Array,
+            required:false
+        },
+        isRecipientsLoaded: {
+            typeof:Boolean,
+            required:true
+        }
+    },
   data() {
     return {
       value: [],
-      options: [
-        'Batman',
-          'Robin',
-          'Joker',
-      ]
+      options: this.recipients,
+      message: "",
+      amount: 0,
+      anon: ref(false)
     }
   }
 }
