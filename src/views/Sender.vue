@@ -48,6 +48,11 @@
       </div>
     </div>
   </div>
+
+   <loading v-model:active="loading"
+                 :can-cancel="true"
+                 :is-full-page="fullPage"/>
+
 </template>
 
 <script>
@@ -58,6 +63,8 @@ import MessageForm from '@/components/MessageForm.vue'
 import LearnSection from '@/components/LearnSection.vue'
 import MessageHistory from '@/components/MessageHistory.vue'
 import * as nearAPI from "near-api-js"
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 const { connect, keyStores, WalletConnection } = nearAPI
 
@@ -76,12 +83,39 @@ const config = {
 export default {
   data () {
     return  {
+      loading:false,
+      fullpage:true,
       isSignedIn: false,
       accountName: '',
       accountBalance: '',
       recipients: [],
       isRecipientsLoaded:false,
-      history:[]
+      history:[
+  {
+    id: 1,
+    sender: 'jane.near',
+    text: 'Thanks for helping me with my first smart contract!',
+    contribution: 2000000000000000000000000
+  },
+  {
+    id: 2,
+    sender: 'john.near',
+    text: 'Appreciate your questions in the Zoom meeting',
+    contribution: 0
+  },
+  {
+    id: 3,
+    sender: 'mary.near',
+    text: 'Loved your examples today, thank you!!!',
+    contribution: 10000000000000000000000000
+  },
+  {
+    id: 4,
+    sender: '',
+    text: 'You\'re so awesome',
+    contribution: 0
+  }
+]
     }
   },
   components: {
@@ -90,7 +124,8 @@ export default {
     MessageForm,
     LearnSection,
     MessageHistory,
-    Login
+    Login,
+    Loading
   },
   async mounted () {
     near = await connect(config);
@@ -132,6 +167,7 @@ export default {
         sender:wallet.account()
       }
     )
+    this.loading=true
     if (amount>0) {
       console.log('with amount')
       await thankYouContract.say({message:message,anonymous:anon,attachedDeposit:amount})
@@ -141,10 +177,7 @@ export default {
     }
       this.history = await thankYouContract.list()
       console.log(this.history)
-    
-      alert(message)
-      alert(amount)
-      alert(anon)
+      this.loading=false
     }
   }
 }

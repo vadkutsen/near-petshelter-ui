@@ -5,12 +5,40 @@
                 Message History
               </RadioGroupLabel>
               <div>
-                <RadioGroupOption v-for="item in history" :key="item.id">
+                <RadioGroupOption v-for="item in history.slice(currentPage*pageSize,currentPage*pageSize+pageSize)" :key="item.id">
                   <Message :item="item"/>
                 </RadioGroupOption>
               </div>
             </RadioGroup>
           </div>
+
+          <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
+    <div class="hidden sm:block">
+      <p class="text-sm text-gray-700">
+        Showing
+        {{ ' ' }}
+        <span class="font-medium">{{currentPage*pageSize+1}}</span>
+        {{ ' ' }}
+        to
+        {{ ' ' }}
+        <span class="font-medium">{{getLastElem()}}</span>
+        {{ ' ' }}
+        of
+        {{ ' ' }}
+        <span class="font-medium">{{history.length}}</span>
+        {{ ' ' }}
+        results
+      </p>
+    </div>
+    <div class="flex-1 flex justify-between sm:justify-end">
+      <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+        Previous
+      </a>
+      <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+        Next
+      </a>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -51,6 +79,12 @@ export default {
       required:true
     }
   },
+  data() {
+    return {
+      currentPage:0,
+      pageSize:6
+    }
+  },
 setup() {
     return {
       items,
@@ -62,6 +96,15 @@ setup() {
   },
   components: {
       Message
+  },
+  methods: {
+    getLastElem() {
+      if (this.pageSize<this.history.length) {
+        return this.currentPage*this.pageSize+this.pageSize
+      }else{
+        return this.history.length
+      }
+    }
   }
 }
 </script>

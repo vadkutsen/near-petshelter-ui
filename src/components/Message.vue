@@ -29,11 +29,12 @@ export default {
   },
   methods: {
     getAmount(tip) {
-      console.log(tip)
+      
       if (tip==0) {
         return tip+" N"
       }else{
-        return (tip/1000000000000000000000000).toFixed(5)+ " N"
+        console.log(tip)
+        return (tip/1000000000000000000000000).toFixed(4)+ " N"
       }
     }
   }
