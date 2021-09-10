@@ -1,13 +1,13 @@
 <template>
-  <Sender/>
+  <Home/>
 </template>
 
 <script>
-import Sender from '@/views/Sender.vue'
+import Home from '@/views/Home.vue'
 
 export default {
   components: {
-    Sender
+    Home
   },
   name: "App",
 }
