@@ -40,11 +40,6 @@
       </div>
     </div>
   </div>
-
-   <loading v-model:active="loading"
-                 :can-cancel="true"
-                 :is-full-page="fullPage"/>
-
 </template>
 
 <script>
@@ -61,8 +56,6 @@ import { useRecipients } from "@/composables/near"
 export default {
   data () {
     return  {
-      loading:false,
-      fullpage:true,
       isRecipientsLoaded:false,
       history:[
   {
@@ -99,7 +92,7 @@ export default {
     LearnSection,
     MessageHistory,
     Login,
-    Loading
+    //Loading
   },
   setup() {
       const { recipients, messages, sendMessage } = useRecipients();

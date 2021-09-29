@@ -1,10 +1,12 @@
 import { keyStores, Near, WalletConnection, utils } from "near-api-js";
 import BN from "bn.js";
 
-export const CONTRACT_ID = "dev-1631276083941-71151788021018";
+export const CONTRACT_ID = "dev-1632838618396-41544502815579";
 export const REGISTRY_CONTRACT_ID = "dev-1631276003404-61262416620213";
 const gas = new BN("70000000000000");
 
+
+// new NEAR is using  here to  awoid  async/await
 export const near = new Near({
     networkId: "testnet",
     keyStore: new keyStores.BrowserLocalStorageKeyStore(),
@@ -13,6 +15,12 @@ export const near = new Near({
   });
 
 export const wallet = new WalletConnection(near, "thankyou");
+
+//function to get account balance
+export const getBalance = (accountName) => {
+    const account = near.account(accountName);
+    return account.getAccountBalance(accountName);
+};
 
 //function to get all recipients from registry contract
 export const getRecipients = () => {
@@ -27,12 +35,12 @@ export const getMessages = () => {
 
 //function to sendMessage
 export const sendMessage = ({message,anonymous,attachedDeposit}) => {
-    console.log(message,anonymous,attachedDeposit)
+    alert(attachedDeposit)
+    attachedDeposit = utils.format.parseNearAmount(attachedDeposit)
     return wallet.account().functionCall({
         contractId: CONTRACT_ID,
         methodName: "say",
-        gas,
         args: {message, anonymous },
-        attachedDeposit
+        attachedDeposit:attachedDeposit,
     })
 }

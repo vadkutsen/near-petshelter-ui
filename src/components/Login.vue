@@ -6,13 +6,12 @@
               <UserIcon  class="w-6 h-6 text-black-500"/>
               <h4 class="mr-2">{{accountId}}</h4>
             </div>
-            <div class="flex items-center justify-center h-12 w-32 rounded-md bg-indigo-500 text-white mx-2">
+            <!-- <div class="flex items-center justify-center h-12 w-32 rounded-md bg-indigo-500 text-white mx-2">
               <CashIcon  class="w-6 h-6 text-black-500 mx-2"/>
-              <!-- <h4>{{getBalance}}</h4> -->
               <span class="mx-1 text-white-500 font-bold sm:text-sm ">
-                        Ⓝ
+                       {{balance}} Ⓝ
                 </span>
-            </div>
+            </div> -->
              <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-2">
                  <LogoutIcon class="w-6 h-6 text-black-500" @click="signOut"/>
             </div>
@@ -25,18 +24,27 @@
 </template>
 
 <script>
-import { UserIcon, CashIcon, LogoutIcon} from '@heroicons/vue/outline'
+import { UserIcon, LogoutIcon} from '@heroicons/vue/outline'
 import {wallet, CONTRACT_ID } from '@/services/near'
 export default {
     components: {
         UserIcon,
-        CashIcon,
         LogoutIcon
     },
-    setup() {
+    props:{
+        getBalance: {
+            type: Function,
+            required:true
+        }
+    },
+    setup(props) {
         const accountId = wallet.getAccountId();
+        const balance = () => {
+            props.getBalance()
+        }
         return {
             accountId,
+            balance,
             signIn: () => wallet.requestSignIn(CONTRACT_ID),
             signOut: () => {
                 wallet.signOut();
