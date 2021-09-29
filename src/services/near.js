@@ -29,13 +29,14 @@ export const getRecipients = () => {
 
 //function to get all messages from thankyou contract
 export const getMessages = () => {
+    alert('inside get messages')
+    console.log(wallet.account().viewFunction(CONTRACT_ID, "list", {}))
     return wallet.account().viewFunction(CONTRACT_ID, "list")
 }
 
 
 //function to sendMessage
 export const sendMessage = ({message,anonymous,attachedDeposit}) => {
-    alert(attachedDeposit)
     attachedDeposit = utils.format.parseNearAmount(attachedDeposit)
     return wallet.account().functionCall({
         contractId: CONTRACT_ID,
