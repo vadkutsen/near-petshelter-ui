@@ -5,7 +5,7 @@
                 Message History
               </RadioGroupLabel>
               <div>
-                <RadioGroupOption v-for="item in history.slice(currentPage*pageSize,currentPage*pageSize+pageSize)" :key="item.id">
+                <RadioGroupOption v-for="item in history" :key="item.id">
                   <Message :item="item"/>
                 </RadioGroupOption>
               </div>
@@ -51,12 +51,6 @@ export default {
       required:true
     }
   },
-  data() {
-    return {
-      currentPage:0,
-      pageSize:6
-    }
-  },
 setup() {
     return {
       items,
@@ -70,13 +64,7 @@ setup() {
       Message
   },
   methods: {
-    getLastElem() {
-      if (this.pageSize<this.history.length) {
-        return this.currentPage*this.pageSize+this.pageSize
-      }else{
-        return this.history.length
-      }
-    }
+   
   }
 }
 </script>
