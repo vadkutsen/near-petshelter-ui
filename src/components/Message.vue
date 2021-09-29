@@ -33,7 +33,6 @@ export default {
       if (tip==0) {
         return tip+" N"
       }else{
-        console.log(tip)
         return (tip/1000000000000000000000000).toFixed(4)+ " N"
       }
     }

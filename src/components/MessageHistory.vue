@@ -5,7 +5,7 @@
                 Message History
               </RadioGroupLabel>
               <div>
-                <RadioGroupOption v-for="item in messages" :key="item.id">
+                <RadioGroupOption v-for="item in this.messages" :key="item.id">
                   <Message :item="item"/>
                 </RadioGroupOption>
               </div>
@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
 import Message from './Message.vue'
 

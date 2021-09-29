@@ -1,8 +1,8 @@
 import { ref, onMounted } from "vue";
 import {
-    getBalance,
     getRecipients,
     getMessages,
+    transfer,
     sendMessage
   } from "../services/near";
 
@@ -15,7 +15,9 @@ import {
       onMounted(async () => {
           try {
               recipients.value = await getRecipients()
+              console.log(recipients.value)
               messages.value = await getMessages()
+              console.log(messages.value)
           }
           catch (e) {
               err.value = e;
@@ -27,14 +29,14 @@ import {
           sendMessage({message,anonymous,attachedDeposit});
       };
 
-      const handleGetBalance = ({accountName}) => {
-           return getBalance({accountName})
+      const handleTransfer = async  () => {
+          transfer()
       }
 
       return {
           recipients,
           messages,
-          getBalance:handleGetBalance,
           sendMessage:handleSendMessage,
+          transferFunds:handleTransfer
       };
   };

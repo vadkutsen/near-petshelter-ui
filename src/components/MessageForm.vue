@@ -63,6 +63,12 @@
                     Say Thanks
                   </button>
                 </div>
+
+                <div class="col-span-6 sm:col-span-6 lg:col-span-3">
+                  <button  @click="handleTransfer" class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Transfer to owner
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -97,6 +103,10 @@ export default {
         sendMessage: {
           type: Function,
           required: true
+        },
+        transferFunds: {
+          type:Function,
+          required: true
         }
     },
     setup(props) {
@@ -116,19 +126,21 @@ export default {
         loading.value=false;
       }
 
+      const handleTransfer = () => {
+      console.log('inside trasnfer');
+      props.transferFunds()
+      }
+
       return {
         message,
         anonymous,
         attachedDeposit,
         fullPage,
         loading,
-        handleSubmit
+        handleSubmit,
+        handleTransfer
       };
 
     },
 }
 </script>
-
-<style>
-
-</style>

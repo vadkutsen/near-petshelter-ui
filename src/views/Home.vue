@@ -19,7 +19,7 @@
 
       <div class="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
         <info/>
-        <message-form :recipients='recipients' :isRecipientsLoaded='isRecipientsLoaded'  :sendMessage='sendMessage'/>
+        <message-form :recipients='recipients' :isRecipientsLoaded='isRecipientsLoaded'  :sendMessage='sendMessage' :transferFunds='transferFunds'/>
     </div>
 
       <svg class="hidden lg:block absolute right-full transform translate-x-1/2 translate-y-12" width="404" height="784" fill="none" viewBox="0 0 404 784" aria-hidden="true">
@@ -34,8 +34,8 @@
       <div class="relative mt-12 sm:mt-16 lg:mt-24">
         <div class="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
           <LearnSection/>
-
-          <MessageHistory :history='history'/>
+          <MessageHistory  v-if="accountId" :messages='messages'/>
+          <MessageHistory  v-else :messages='history'/>
         </div>
       </div>
     </div>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import {wallet, CONTRACT_ID } from '@/services/near'
 import Login from '@/components/Login.vue'
 import Header from '@/components/Header.vue'
 import Info from '@/components/Info.vue'
@@ -94,13 +95,16 @@ export default {
     Login,
     //Loading
   },
-  setup() {
-      const { recipients, messages, sendMessage } = useRecipients();
+  setup(props) {
+      const accountId = wallet.getAccountId();
+      const { recipients, messages, sendMessage, transferFunds } = useRecipients();
 
       return {
+          accountId,
           recipients,
           messages,
-          sendMessage
+          sendMessage,
+          transferFunds
       }
   }
 }

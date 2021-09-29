@@ -16,24 +16,21 @@ export const near = new Near({
 
 export const wallet = new WalletConnection(near, "thankyou");
 
-//function to get account balance
-export const getBalance = (accountName) => {
-    const account = near.account(accountName);
-    return account.getAccountBalance(accountName);
-};
-
 //function to get all recipients from registry contract
 export const getRecipients = () => {
-    return wallet.account().viewFunction(REGISTRY_CONTRACT_ID, "list_all", {});
+    return wallet.account().viewFunction(REGISTRY_CONTRACT_ID, "list_all");
 };
 
 //function to get all messages from thankyou contract
 export const getMessages = () => {
-    alert('inside get messages')
-    console.log(wallet.account().viewFunction(CONTRACT_ID, "list", {}))
     return wallet.account().viewFunction(CONTRACT_ID, "list")
 }
 
+//function to transfer funds to  owner
+
+export const transfer = () => {
+    return wallet.account().viewFunction(CONTRACT_ID, "transfer")
+}
 
 //function to sendMessage
 export const sendMessage = ({message,anonymous,attachedDeposit}) => {
@@ -42,6 +39,6 @@ export const sendMessage = ({message,anonymous,attachedDeposit}) => {
         contractId: CONTRACT_ID,
         methodName: "say",
         args: {message, anonymous },
-        attachedDeposit:attachedDeposit,
+        attachedDeposit:attachedDeposit
     })
 }
