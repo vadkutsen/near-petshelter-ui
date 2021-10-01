@@ -9,7 +9,6 @@ import {
   export const useRecipients = () => {
       const recipients = ref([]);
       const messages = ref([]);
-      const balance = ref(0);
       const err = ref(null);
 
       onMounted(async () => {
@@ -30,7 +29,7 @@ import {
       };
 
       const handleTransfer = async  () => {
-          transfer()
+          transfer();
       }
 
       return {
