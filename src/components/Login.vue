@@ -31,20 +31,10 @@ export default {
         UserIcon,
         LogoutIcon
     },
-    props:{
-        getBalance: {
-            type: Function,
-            required:true
-        }
-    },
     setup(props) {
         const accountId = wallet.getAccountId();
-        const balance = () => {
-            props.getBalance()
-        }
         return {
             accountId,
-            balance,
             signIn: () => wallet.requestSignIn(CONTRACT_ID),
             signOut: () => {
                 wallet.signOut();
