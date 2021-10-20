@@ -25,6 +25,7 @@
 
 <script>
 import { UserIcon, LogoutIcon} from '@heroicons/vue/outline'
+import {ref} from "vue"
 import {wallet, CONTRACT_ID } from '@/services/near'
 export default {
     components: {
@@ -32,13 +33,15 @@ export default {
         LogoutIcon
     },
     setup(props) {
-        const accountId = wallet.getAccountId();
+        const accountId = ref("")
+        accountId.value = wallet.getAccountId();
         return {
             accountId,
             signIn: () => wallet.requestSignIn(CONTRACT_ID),
             signOut: () => {
                 wallet.signOut();
-                window.location.reload();
+                localStorage.removeItem(`near-api-js:keystore:${accountId.value}:testnet`);
+                accountId.value=wallet.getAccountId()
             }
         }
     }
