@@ -1,8 +1,4 @@
-# thanks
-
-[video demo walkthrough](https://www.loom.com/embed/146c2e718c014648a69c057257383656)
-
-![screenshot](./screenshot.png)
+# NEAR Pet Shop
 
 ## Project setup
 ```
