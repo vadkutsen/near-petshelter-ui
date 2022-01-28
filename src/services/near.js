@@ -4,9 +4,6 @@ import BN from "bn.js";
 export const CONTRACT_ID = process.env.VUE_APP_CONTRACT_ID;
 const gas = new BN(process.env.VUE_APP_gas);
 
-// export const CONTRACT_ID = "dev-1643241083577-84164361741832";
-// export const REGISTRY_CONTRACT_ID = "dev-1631276003404-61262416620213";
-// const gas = new BN("30000000000000");
 
 // new NEAR is used here to  awoid  async/await
 export const near = new Near({

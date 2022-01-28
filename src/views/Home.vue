@@ -3,7 +3,8 @@
     <h2 class="mt-4 max-w-3xl mx-auto text-xl"><strong>ADOPT ME</strong></h2>
     <h2 class="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-500">Total Donated: {{donations/1000000000000000000000000}} Ⓝ</h2>
     <div class="flex w-1/2 justify-end items-center list-none">
-      <form v-if="accountId" @submit.prevent="handleDonate" class="flex w-1/2 justify-end items-center list-none">
+      <DonateForm />
+      <!-- <form v-if="accountId" @submit.prevent="handleDonate" class="flex w-1/2 justify-end items-center list-none">
         <input
           v-model="donation"
           id="donation"
@@ -19,9 +20,8 @@
           type="submit"
         >
           <h4 class="mr-2">Donate Ⓝ</h4>
-          <!-- <CurrencyDollarIcon class="w-6 h-6 text-black-500" /> -->
         </button>
-      </form>
+      </form> -->
       <button
         v-if="accountId"
         class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-2"
@@ -237,23 +237,23 @@
 </template>
 
 <script>
-import { wallet, CONTRACT_ID } from "@/services/near"
+import { wallet } from "@/services/near"
 import Login from "@/components/Login.vue"
 import Header from "@/components/Header.vue"
 import PetsList from "@/components/PetsList.vue"
+import DonateForm from "@/components/DonateForm.vue"
 import Loading from "vue-loading-overlay"
 import "vue-loading-overlay/dist/vue-loading.css"
 import { getPets, addPet, getDonations, donate } from "@/services/near"
-import { PlusIcon, CurrencyDollarIcon } from "@heroicons/vue/outline"
+import { PlusIcon } from "@heroicons/vue/outline"
 import { onMounted, ref, reactive } from "vue"
-import BN from "bn.js";
 
 export default {
   components: {
     Header,
-    // CurrencyDollarIcon,
     PlusIcon,
     PetsList,
+    DonateForm,
     Login,
     Loading,
   },
@@ -262,7 +262,6 @@ export default {
     const showModal = ref(false)
     const isLoading = ref(false)
     const fullPage = ref(true)
-    const donation = ref(null);
     const donations = ref(0)
     const pets = ref([])
     const err = ref(null)
@@ -308,18 +307,18 @@ export default {
         isLoading.value = false
       }
     }
-    const handleDonate = async () => {
-      isLoading.value = true
-      try {
-        await donate(donation.value)
-        isLoading.value = false
-      } catch (e) {
-        err.value = e
-        alert(err.value)
-        console.log(err.value)
-        isLoading.value = false
-      }
-    };
+    // const handleDonate = async () => {
+    //   isLoading.value = true
+    //   try {
+    //     await donate(donation.value)
+    //     isLoading.value = false
+    //   } catch (e) {
+    //     err.value = e
+    //     alert(err.value)
+    //     console.log(err.value)
+    //     isLoading.value = false
+    //   }
+    // }
     return {
       accountId,
       pets,
@@ -331,8 +330,6 @@ export default {
       toggleModal,
       handleSubmit,
       donations,
-      donation,
-      handleDonate
     }
   },
 }
