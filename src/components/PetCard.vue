@@ -18,8 +18,7 @@
             <button
               class="inline-block bg-gray-200 rounded-full px-3 py-1 text-lg font-semibold text-gray-700 mr-2 mb-2"
               type="button"
-              @click.prevent="handleAdopt(item[0])"
-              :disabled='disabled'
+              @click="handleAdopt(item[0])"
             >
               Adopt
             </button>
@@ -32,14 +31,13 @@
       </div>
     </div>
   </div>
-  <Loading v-model:active="isLoading" :is-full-page="fullPage" />
+  <Loading v-model:active="isLoading" :is-full-page="true" />
 </template>
 
 <script>
-import { adopt } from "@/services/near"
-import { ref } from "vue"
 import Loading from "vue-loading-overlay"
 import "vue-loading-overlay/dist/vue-loading.css"
+import { usePets } from "@/composables/pets"
 export default {
   components: {
     Loading,
@@ -49,30 +47,9 @@ export default {
       typeof: Array,
     },
   },
-  setup() {
-    const disabled = ref(false)
-    const err = ref(null)
-    const isLoading = ref(false)
-    const fullPage = ref(true)
-    const handleAdopt = async (petId) => {
-      try {
-        disabled.value = true
-        isLoading.value = true
-        await adopt(petId)
-        isLoading.value = false
-      } catch (e) {
-        err.value = e;
-        alert(err.value)
-        disabled.value = false
-        isLoading.value = false
-      }
-    }
+  setup(props) {
     return {
-      handleAdopt,
-      disabled,
-      isLoading,
-      fullPage,
-      adopt,
+      ...usePets(props)
     }
   },
 }

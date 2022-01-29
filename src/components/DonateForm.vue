@@ -21,12 +21,11 @@
       <h4 class="mr-2">Donate Ⓝ</h4>
     </button>
   </form>
-  <Loading v-model:active="isLoading" :is-full-page="fullPage" />
+  <Loading v-model:active="isLoading" :is-full-page="false" />
 </template>
 
 <script>
-import { donate, wallet } from "@/services/near"
-import { ref } from "vue"
+import { useDonate } from "@/composables/donate"
 import Loading from "vue-loading-overlay"
 import "vue-loading-overlay/dist/vue-loading.css"
 
@@ -35,31 +34,8 @@ export default {
     Loading,
   },
   setup() {
-    const accountId = wallet.getAccountId()
-    const donation = ref(null)
-    const disabled = ref(false)
-    const err = ref(null)
-    const isLoading = ref(false)
-    const fullPage = ref(true)
-    const handleDonate = async () => {
-      isLoading.value = true
-      try {
-        await donate(donation.value)
-        isLoading.value = false
-      } catch (e) {
-        err.value = e
-        alert(err.value)
-        console.log(err.value)
-        isLoading.value = false
-      }
-    }
     return {
-      accountId,
-      handleDonate,
-      disabled,
-      isLoading,
-      fullPage,
-      donation
+      ...useDonate(),
     }
   },
 }

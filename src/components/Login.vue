@@ -21,7 +21,7 @@
       @click="signIn"
       class="self-end rounded-3xl  py-3 px-10 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
-      Login
+      Log In
     </button>
   </div>
 </template>
@@ -40,10 +40,11 @@ export default {
     accountId.value = wallet.getAccountId();
     return {
       accountId,
-      signIn: () => wallet.requestSignIn({
-        contractId: CONTRACT_ID,
-        methodNames: [] // add methods names to restrict access
-      }),
+      signIn: () =>
+        wallet.requestSignIn({
+          contractId: CONTRACT_ID,
+          methodNames: [], // add methods names to restrict access
+        }),
       signOut: () => {
         wallet.signOut();
         localStorage.removeItem(
@@ -52,6 +53,6 @@ export default {
         accountId.value = wallet.getAccountId();
       },
     };
-  }
+  },
 };
 </script>

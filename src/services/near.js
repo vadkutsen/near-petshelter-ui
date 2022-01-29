@@ -20,12 +20,7 @@ export const getPets = () => {
   return wallet.account().viewFunction(CONTRACT_ID, "get_pets");
 };
 
-//function to get all adopters
-export const getAdopters = () => {
-  return wallet.account().viewFunction(CONTRACT_ID, "get_adopters");
-};
-
-//function to get all adopters
+//function to get total donations
 export const getDonations = () => {
   return wallet.account().viewFunction(CONTRACT_ID, "get_donations");
 };
@@ -55,7 +50,7 @@ export const adopt = (petId) => {
   });
 };
 
-//function to adopt a pet
+//function to donate
 export const donate = (attachedDeposit) => {
   attachedDeposit = utils.format.parseNearAmount(attachedDeposit)
     return wallet.account().functionCall({
