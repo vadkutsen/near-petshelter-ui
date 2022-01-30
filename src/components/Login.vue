@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import { UserIcon, LogoutIcon } from "@heroicons/vue/outline";
+import { UserIcon, LogoutIcon } from "@heroicons/vue/outline"
 import { ref } from "vue";
-import { wallet, CONTRACT_ID } from "@/services/near";
+import { wallet, CONTRACT_ID } from "@/services/near"
 export default {
   components: {
     UserIcon,
@@ -37,7 +37,7 @@ export default {
   },
   setup() {
     const accountId = ref("");
-    accountId.value = wallet.getAccountId();
+    accountId.value = wallet.getAccountId()
     return {
       accountId,
       signIn: () =>
@@ -49,10 +49,11 @@ export default {
         wallet.signOut();
         localStorage.removeItem(
           `near-api-js:keystore:${accountId.value}:testnet`
-        );
-        accountId.value = wallet.getAccountId();
+        )
+        accountId.value = wallet.getAccountId()
+        window.location.reload()
       },
-    };
+    }
   },
-};
+}
 </script>

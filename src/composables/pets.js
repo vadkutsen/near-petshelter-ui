@@ -6,6 +6,7 @@ const pets = ref([])
 
 export const usePets = () => {
   const accountId = wallet.getAccountId()
+  const owner = process.env.VUE_APP_CONTRACT_ID
   const err = ref(null)
   const isLoading = ref(false)
   const form = reactive({
@@ -68,6 +69,7 @@ export const usePets = () => {
 
   return {
     accountId,
+    owner,
     pets,
     isLoading,
     form,

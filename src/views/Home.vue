@@ -115,9 +115,7 @@ export default {
     AddPetDialog,
   },
   setup() {
-    const owner = process.env.VUE_APP_CONTRACT_ID
     return {
-      owner,
       ...usePets(),
       ...useDonate()
     }

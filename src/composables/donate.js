@@ -3,9 +3,11 @@ import { donate, getDonations, wallet } from "@/services/near"
 
 const isLoading = ref(false)
 const donations = ref(0)
+const owner = process.env.VUE_APP_CONTRACT_ID
 
 export const useDonate = () => {
   const accountId = wallet.getAccountId()
+  // const owner = process.env.VUE_APP_CONTRACT_ID
   const donation = ref(null)
   const err = ref(null)
 
@@ -34,6 +36,7 @@ export const useDonate = () => {
 
   return {
     accountId,
+    owner,
     isLoading,
     donation,
     donations,

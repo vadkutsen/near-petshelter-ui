@@ -1,6 +1,6 @@
 <template>
   <form
-    v-if="accountId"
+    v-if="accountId && accountId !== owner"
     @submit.prevent="handleDonate"
     class="flex w-1/2 justify-end items-center list-none"
   >
