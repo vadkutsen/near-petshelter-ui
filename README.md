@@ -1,4 +1,4 @@
-# NEAR Pet Shop
+# NEAR Pet Shelter
 
 ## Project setup
 ```
