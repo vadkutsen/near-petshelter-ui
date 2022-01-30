@@ -6,7 +6,6 @@ const pets = ref([])
 
 export const usePets = () => {
   const accountId = wallet.getAccountId()
-  const donations = ref(0)
   const err = ref(null)
   const isLoading = ref(false)
   const form = reactive({
@@ -20,7 +19,6 @@ export const usePets = () => {
   onMounted(async () => {
     isLoading.value = true
     try {
-      donations.value = await getDonations()
       pets.value = await getPets()
       isLoading.value = false
     } catch (e) {
@@ -71,7 +69,6 @@ export const usePets = () => {
   return {
     accountId,
     pets,
-    donations,
     isLoading,
     form,
     showModal,

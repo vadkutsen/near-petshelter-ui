@@ -5,7 +5,7 @@
     <div class="flex w-1/2 justify-end items-center list-none">
       <DonateForm />
       <button
-        v-if="accountId"
+        v-if="accountId && accountId === owner"
         class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white mx-2"
         @click.prevent="toggleModal"
       >
@@ -93,7 +93,6 @@
       </svg>
     </div>
   </div>
-  <Loading v-model:active="isLoading" />
 </template>
 
 <script>
@@ -104,8 +103,7 @@ import DonateForm from "@/components/DonateForm.vue"
 import AddPetDialog from "@/components/AddPetDialog.vue"
 import { PlusIcon } from "@heroicons/vue/outline"
 import { usePets } from "@/composables/pets"
-import Loading from "vue-loading-overlay"
-import "vue-loading-overlay/dist/vue-loading.css"
+import { useDonate } from "@/composables/donate"
 
 export default {
   components: {
@@ -115,11 +113,13 @@ export default {
     DonateForm,
     Login,
     AddPetDialog,
-    Loading,
   },
   setup() {
+    const owner = process.env.VUE_APP_CONTRACT_ID
     return {
-      ...usePets()
+      owner,
+      ...usePets(),
+      ...useDonate()
     }
   },
 }
