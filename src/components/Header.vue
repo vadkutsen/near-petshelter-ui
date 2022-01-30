@@ -6,8 +6,8 @@
       ADOPT ME
     </h2>
     <p class="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-500">
-      Extended version of the Pet Shop app from Truffle tutorial. <br />
-      Built on NEAR smart contract.
+      Simple version of a blockchain pet shelter. Built on NEAR smart contract. <br />
+      Inspired by the Pet Shop app from Truffle tutorial.
     </p>
   </div>
 </template>
